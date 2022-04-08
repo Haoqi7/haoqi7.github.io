@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>hexo新建文章自动打开Typora</title>
+      <link href="posts/dc9e8c33.html"/>
+      <url>posts/dc9e8c33.html</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h4 id="hexo-新建文章自动打开-Typora"><a href="#hexo-新建文章自动打开-Typora" class="headerlink" title="hexo 新建文章自动打开 Typora"></a><strong>hexo 新建文章自动打开 Typora</strong></h4><p>写新文章时，需要控制台执行 hexo new “title”，这样就会在_posts 下生成一篇新文章，但需要手动打开，挺麻烦，只需要在站点根目录下新建 scripts 目录，然后在新建 auto_open.js，在文件填入一下内容：</p><pre class="line-numbers language-none"><code class="language-none">Javascriptvar spawn = require('child_process').exec;// Hexo 2.x 用户复制这段//hexo.on('new', function(path){  //spawn('start  "markdown编辑器绝对路径.exe" ' + path);//});// Hexo 3 用户复制这段hexo.on('new', function(data){  spawn('start  "D:\Program Files\Typora\Typora.exe" ' + data.path);});<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>注： “D:\Program Files\Typora\Typora.exe” 是我本地编辑器的路径，只需要改为你本地编辑器的路径即可。</p><p>然后在执行 hexo cl &amp;&amp; hexo g -d，部署到 GitHub 即可，以后在发布文章就会自动打开编辑器。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 博客篇 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> hexo </tag>
+            
+            <tag> typora </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>hexo站点文件详解</title>
       <link href="posts/a82a6eba.html"/>
       <url>posts/a82a6eba.html</url>
