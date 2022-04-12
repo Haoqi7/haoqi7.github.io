@@ -47,10 +47,19 @@
 
 
 
-
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5">
+</head>
 
 
 <body>
+
+<!-- leafacePlayer播放器 -->
+    
+      <script id="lfz" src="https://player.liaofuzhan.com/player/player.js" key=1513789771497926658></script>
+      <script src="https://cdn.jsdelivr.net/npm/jquery@3.0.0/dist/jquery.min.js"></script>
+    
+
     <header class="navbar-fixed">
     <nav id="headNav" class="bg-color nav-transparent">
         <div id="navContainer" class="nav-wrapper container">
@@ -261,12 +270,16 @@
       <li>
         <a href="/tools">
           
+          <i class="fas fa-suitcase" style="margin-top: -20px; zoom: 0.6;"></i>
+          
           <span>Tools</span>
         </a>
       </li>
       
       <li>
         <a href="/confession">
+          
+          <i class="fas fa-heartbeat" style="margin-top: -20px; zoom: 0.6;"></i>
           
           <span>Confession</span>
         </a>
@@ -282,6 +295,8 @@
       <li>
         <a href="/chromedragon">
           
+          <i class="fas fa-gamepad" style="margin-top: -20px; zoom: 0.6;"></i>
+          
           <span>GameDragon</span>
         </a>
       </li>
@@ -289,14 +304,9 @@
       <li>
         <a href="/life">
           
-          <span>LifeRestart</span>
-        </a>
-      </li>
-      
-      <li>
-        <a target="_blank" rel="noopener" href="https://camt.vercel.app/">
+          <i class="fas fa-gamepad" style="margin-top: -20px; zoom: 0.6;"></i>
           
-          <span>CatchCat</span>
+          <span>LifeRestart</span>
         </a>
       </li>
       
@@ -310,7 +320,16 @@
       <li>
         <a href="/resource">
           
+          <i class="fas fa-share" style="margin-top: -20px; zoom: 0.6;"></i>
+          
           <span>Resource</span>
+        </a>
+      </li>
+      
+      <li>
+        <a target="_blank" rel="noopener" href="https://camt.vercel.app/">
+          
+          <span>CathCat</span>
         </a>
       </li>
       
@@ -582,6 +601,8 @@
 
                   <a href="/tools " style="margin-left:75px">
 				  
+				   <i class="fa fas fa-suitcase" style="position: absolute;left:50px" ></i>
+			      
 		          <span>Tools</span>
                   </a>
                 </li>
@@ -590,6 +611,8 @@
 
                   <a href="/confession " style="margin-left:75px">
 				  
+				   <i class="fa fas fa-heartbeat" style="position: absolute;left:50px" ></i>
+			      
 		          <span>Confession</span>
                   </a>
                 </li>
@@ -606,6 +629,8 @@
 
                   <a href="/chromedragon " style="margin-left:75px">
 				  
+				   <i class="fa fas fa-gamepad" style="position: absolute;left:50px" ></i>
+			      
 		          <span>GameDragon</span>
                   </a>
                 </li>
@@ -614,15 +639,9 @@
 
                   <a href="/life " style="margin-left:75px">
 				  
+				   <i class="fa fas fa-gamepad" style="position: absolute;left:50px" ></i>
+			      
 		          <span>LifeRestart</span>
-                  </a>
-                </li>
-              
-                <li>
-
-                  <a target="_blank" rel="noopener" href="https://camt.vercel.app/ " style="margin-left:75px">
-				  
-		          <span>CatchCat</span>
                   </a>
                 </li>
               
@@ -638,7 +657,17 @@
 
                   <a href="/resource " style="margin-left:75px">
 				  
+				   <i class="fa fas fa-share" style="position: absolute;left:50px" ></i>
+			      
 		          <span>Resource</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a target="_blank" rel="noopener" href="https://camt.vercel.app/ " style="margin-left:75px">
+				  
+		          <span>CathCat</span>
                   </a>
                 </li>
               
@@ -858,7 +887,7 @@
 
 
             <div class="cover-btns">
-                <a href="#indexCard" class="waves-effect waves-light btn">
+                <a href="#articles" class="waves-effect waves-light btn">
                     <i class="fa fa-angle-double-down"></i>开始阅读
                 </a>
 
@@ -1017,64 +1046,6 @@
                     
 
                     
-                        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
-<style>
-    .aplayer .aplayer-lrc p {
-        
-        display: none;
-        
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 16px !important;
-    }
-
-    .aplayer .aplayer-lrc p.aplayer-lrc-current {
-        
-        display: none;
-        
-        font-size: 15px;
-        color: #42b983;
-    }
-
-    
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
-        left: -66px !important;
-    }
-
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
-        left: 0px !important;
-    }
-
-    
-</style>
-<div class="music-player">
-    
-        <div class="title center-align">
-            <i class="fas fa-music"></i>&nbsp;&nbsp;听听音乐
-        </div>
-    
-    <div class="row">
-        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
-                   server="tencent"
-                   type="playlist"
-                   id="1576508643"
-                   fixed='false'
-                   autoplay='false'
-                   theme='#42b983'
-                   loop='all'
-                   order='random'
-                   preload='auto'
-                   volume='0.6'
-                   list-folded='true'
-        >
-        </meting-js>
-    </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/gh/haoqi7/cdn/js/APlayer.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
-
-                        
 
                     
                         <link rel="stylesheet" href="/libs/dplayer/DPlayer.min.css">
