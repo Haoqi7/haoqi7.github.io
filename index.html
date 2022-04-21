@@ -56,30 +56,7 @@
 <body>
 <!-- 页面加载动画 -->
 
-<div id="loading-box">
-    <div class="loading-left-bg"></div>
-    <div class="loading-right-bg"></div>
-    <div class="spinner-box">
-        <div class="configure-border-1">
-            <div class="configure-core"></div>
-        </div>
-        <div class="configure-border-2">
-            <div class="configure-core"></div>
-        </div>
-        <div class="loading-word">加载中...</div>
-    </div>
-</div>
-<script>
-    window.addEventListener('load', function(){
-        document.body.style.overflow = 'auto';
-        document.getElementById('loading-box').classList.add("loaded")
-    }, false)
-</script>
-
 <!-- leafacePlayer播放器 -->
-    
-      <script id="lfz" src="https://player.liaofuzhan.com/player/player.js" key=1513789771497926658></script>
-      <script src="https://cdn.jsdelivr.net/npm/jquery@3.0.0/dist/jquery.min.js"></script>
     
 
     <header class="navbar-fixed">
@@ -908,7 +885,7 @@
 
 
             <div class="cover-btns">
-                <a href="#articles" class="waves-effect waves-light btn">
+                <a href="#indexCard" class="waves-effect waves-light btn">
                     <i class="fa fa-angle-double-down"></i>开始阅读
                 </a>
 
@@ -1067,6 +1044,64 @@
                     
 
                     
+                        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="music-player">
+    
+        <div class="title center-align">
+            <i class="fas fa-music"></i>&nbsp;&nbsp;听听音乐
+        </div>
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="tencent"
+                   type="playlist"
+                   id="1576508643"
+                   fixed='false'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.6'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/haoqi7/cdn/js/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+                        
 
                     
                         <link rel="stylesheet" href="/libs/dplayer/DPlayer.min.css">
