@@ -11,7 +11,7 @@
   
   <title>
     
-      解决LeanCloud流控问题 
+      links 
       
       
       |
@@ -147,216 +147,6 @@
   
 
   
-  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
-  <div class="container post-details" id="post-details">
-    <div class="post-content">
-      <div class="post-title">解决LeanCloud流控问题</div>
-      <div class="post-attach">
-        <span class="post-pubtime">
-          <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
-          2022-03-23 12:05:00
-        </span>
-        
-              <span class="post-tags">
-                <i class="iconfont icon-tags mr-10" title="标签"></i>
-                
-                <span class="span--tag mr-8">
-                  <a href="/tags/hexo/" title="hexo">
-                    #hexo
-                  </a>
-                </span>
-                
-                <span class="span--tag mr-8">
-                  <a href="/tags/leancloud/" title="leancloud">
-                    #leancloud
-                  </a>
-                </span>
-                
-                <span class="span--tag mr-8">
-                  <a href="/tags/valine/" title="valine">
-                    #valine
-                  </a>
-                </span>
-                
-                <span class="span--tag mr-8">
-                  <a href="/tags/Github-Acions/" title="Github Acions">
-                    #Github Acions
-                  </a>
-                </span>
-                
-              </span>
-          
-      </div>
-      <div class="markdown-body">
-        <p>1.前言</p>
-<p>最近测试的时候发现开启的LeanCloud邮件提醒无法唤醒，查看日志了解到”因流控原因，通过定时任务唤醒体验版实例失败，建议升级至标准版云引擎实例避免休眠”。然后在网上搜索了一些文章发现日期都比较老，进行修改测试后成功解决了流控问题，特此记录。</p>
-<p>2.部署</p>
-<p>部署方面简单说一下，网上有很多比较全的教程。</p>
-<p>2.1创建应用</p>
-<p>打开leancloud注册国际版账户，创建应用，选择开发版。</p>
-<p>打开创建的应用，选择<code>云引擎</code>–&gt;<code>设置</code>–&gt;<code>云引擎域名</code>(输入自己喜欢的一个的前缀)，也可以选择绑定自己的域名，选择<code>设置</code>–&gt;<code>域名绑定</code>–&gt;<code>云引擎域名</code></p>
-<p><code>注意：</code>一定要选择国际版，如果你选择的是<code>华北</code>或者<code>华东</code>的话，Valine后台评论管理是需要备案才能绑定的。</p>
-<p>2.2自定义环境变量</p>
-<p>选择<code>云引擎</code>–&gt;<code>设置</code>–&gt;<code>添加自定义环境变量</code></p>
-<table>
-<thead>
-<tr>
-<th>变量名称</th>
-<th>示例</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>SITE_NAME</td>
-<td>HaoQi</td>
-<td><code>[必填]</code>网站名称</td>
-</tr>
-<tr>
-<td>SITE_URL</td>
-<td><a target="_blank" rel="noopener" href="https://haoqiyun.top/">https://haoqiyun.top</a></td>
-<td><code>[必填]</code>网站地址</td>
-</tr>
-<tr>
-<td>SMTP_USER</td>
-<td><a href="mailto:w00989988@163.com">w00989988@163.com</a></td>
-<td><code>[必填]</code>邮箱地址</td>
-</tr>
-<tr>
-<td>SMTP_PASS</td>
-<td>########</td>
-<td><code>[必填]</code>邮箱授权码 (部分邮箱服务商默认开启SMTP)   (如果没有授权码可直接填写邮箱密码）</td>
-</tr>
-<tr>
-<td>SMTP_SERVICE</td>
-<td>163</td>
-<td><code>[必填]</code>邮箱服务商</td>
-</tr>
-<tr>
-<td>ADMIN_URL</td>
-<td>https://****sapps.us</td>
-<td><code>[可选]</code> 后台管理地址</td>
-</tr>
-<tr>
-<td>SENDER_NAME</td>
-<td>HaoQi</td>
-<td><code>[必填]</code>寄件人名称</td>
-</tr>
-</tbody></table>
-<p>2.3部署</p>
-<p>选择<code>云引擎</code>–&gt;<code>部署</code>–&gt;<code>部署项目</code>–&gt;<code>Git部署</code>–&gt;<code>配置Git</code>–&gt;<code>填写下方任意一个地址</code>–&gt;<code>保存</code>–&gt;<code>生产环境</code>–&gt;<code>部署</code></p>
-<p>项目部署地址：<a target="_blank" rel="noopener" href="https://github.com/Haoqi7/valine-admin.git">https://github.com/Haoqi7/valine-admin.git</a></p>
-<p>2.4创建定时任务</p>
-<ol>
-<li>定时检查24小时内漏发的邮件通知<br> 生产环境选择<code>resend_mails</code><br>选择<code>Cron表达式</code>时间自己调整<code>0 0 1 * * *</code></li>
-<li>自动唤醒<br> 生产环境选择<code>self_wake</code><br>选择<code>Cron表达式</code>时间自己调整<code>0 0/60 0 * * ?</code></li>
-</ol>
-<p>2.5设置安全域名 设置博客地址</p>
-<p>3.Github Actions</p>
-<p>3.1在个人页面选择<code>setting</code>，点击<code>Developer settings</code>，选择<code>Personal access tokens</code>，添加一个新的TOKEN。设置名字为<code>GITHUB_TOKEN</code> ，然后勾选全部选项。</p>
-<p>3.2接下来fork项目</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/haoqiyung/WakeLean">https://github.com/haoqiyung/WakeLean</a></p>
-<p>3.3添加评论后台</p>
-<p>成功FORK后，进入项目的设置，选择Secrets。</p>
-<p>name填写 SITE，Value填写你的leancloud的后台地址（ADMIN_URL）</p>
-<p>4.0对自己的项目点个star就可以启动了，可以看actions界面是否正常运行。</p>
-<blockquote>
-</blockquote>
-<blockquote>
-</blockquote>
-<blockquote>
-<p>参考链接：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1628950">https://cloud.tencent.com/developer/article/1628950</a></p>
-</blockquote>
-
-      </div>
-      
-        <div class="prev-or-next">
-          <div class="post-foot-next">
-            
-              <a href="/posts/64abd39e.html" target="_self">
-                <i class="iconfont icon-chevronleft"></i>
-                <span>上一页</span>
-              </a>
-            
-          </div>
-          <div class="post-attach">
-            <span class="post-pubtime">
-              <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
-              2022-03-23 12:05:00
-            </span>
-            
-                  <span class="post-tags">
-                    <i class="iconfont icon-tags mr-10" title="标签"></i>
-                    
-                    <span class="span--tag mr-8">
-                      <a href="/tags/hexo/" title="hexo">
-                        #hexo
-                      </a>
-                    </span>
-                    
-                    <span class="span--tag mr-8">
-                      <a href="/tags/leancloud/" title="leancloud">
-                        #leancloud
-                      </a>
-                    </span>
-                    
-                    <span class="span--tag mr-8">
-                      <a href="/tags/valine/" title="valine">
-                        #valine
-                      </a>
-                    </span>
-                    
-                    <span class="span--tag mr-8">
-                      <a href="/tags/Github-Acions/" title="Github Acions">
-                        #Github Acions
-                      </a>
-                    </span>
-                    
-                  </span>
-              
-          </div>
-          <div class="post-foot-prev">
-            
-              <a href="/posts/d00bc300.html" target="_self">
-                <span>下一页</span>
-                <i class="iconfont icon-chevronright"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-    </div>
-    
-
-    
-      <div class="comments-container">
-        
-  
-    <script async type="text/javascript" src="/plugins/waline.js" onload="loadWalineSuc(this)"></script>
-  
-
-  <div id="waline-comments"></div>
-
-  <script>
-    function loadWalineSuc() {
-      new Waline({
-        el: '#waline-comments',
-        path: location.pathname,
-        serverURL: 'https://ve.haoqiyun.tk/'
-      })
-    }
-  </script>
-
-
-
-
-
-
-
-
-      </div>
-    
-  </div>
-
 
         
 <div class="footer">
@@ -611,12 +401,12 @@
       </a>
       <div class="share-content hidden">
         
-          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E8%A7%A3%E5%86%B3LeanCloud%E6%B5%81%E6%8E%A7%E9%97%AE%E9%A2%98 + '&url=' + https%3A%2F%2Fhaoqi7.github.io%2Fposts%2F2cc3d378.html + '" target="_blank" title="Twitter">
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + links + '&url=' + https%3A%2F%2Fhaoqi7.github.io%2Flinks%2Findex.html + '" target="_blank" title="Twitter">
             <i class="iconfont icon-twitter"></i>
           </a>
         
         
-          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://haoqi7.github.io/posts/2cc3d378.html" target="_blank" title="Facebook">
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://haoqi7.github.io/links/index.html" target="_blank" title="Facebook">
             <i class="iconfont icon-facebooksquare"></i>
           </a>
         
