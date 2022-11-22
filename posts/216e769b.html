@@ -60,9 +60,9 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="HaoQi" type="application/atom+xml">
-
+<meta name="generator" content="Hexo 6.0.0">
 <style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="HaoQi" type="application/atom+xml">
 <link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
 
 
@@ -87,6 +87,10 @@
       
         <li class="nav-item" data-path="/archives/">
           <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/categories/">
+          <a href="/categories/">Categories</a>
         </li>
       
         <li class="nav-item" data-path="/tags/">
@@ -159,6 +163,17 @@
           2022-03-15 10:25:00
         </span>
         
+              <span class="post-categories">
+                <i class="iconfont icon-bookmark" title="分类"></i>
+                
+                <span class="span--category">
+                  <a href="/categories/%E6%8F%92%E4%BB%B6%E7%AF%87/" title="插件篇">
+                    <b>#</b> 插件篇
+                  </a>
+                </span>
+                
+              </span>
+          
               <span class="post-tags">
                 <i class="iconfont icon-tags mr-10" title="标签"></i>
                 
@@ -185,71 +200,71 @@
   user: ***    #这个需要修改为你个人的id  
   builtin: true   #如果想生成豆瓣页面，这个需要设置为true
   book: 
-  	title: 'This is my book title' 
-  	quote: 'This is my book quote' 
+  	title: &#39;This is my book title&#39; 
+  	quote: &#39;This is my book quote&#39; 
   movie: 
-  	title: 'This is my movie title' 
-  	quote: 'This is my movie quote' 
+  	title: &#39;This is my movie title&#39; 
+  	quote: &#39;This is my movie quote&#39; 
   game: 
-  	title: 'This is my game title' 
-  	quote: 'This is my game quote' 
+  	title: &#39;This is my game title&#39; 
+  	quote: &#39;This is my game quote&#39; 
   timeout: 10000<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>user:：你的豆瓣 ID。打开豆瓣，登入账户，然后在右上角点击 ” 个人主页 “，这时候地址栏的 URL 大概是这样：<a target="_blank" rel="noopener" href="https://www.douban.com/people/xxxxxx/">https://www.douban.com/people/xxxxxx/</a> ，其中的”xxxxxx” 就是你的个人 ID 了。<br>builtin：是否将生成页面的功能嵌入 hexo s 和 hexo g 中，默认是 false ，另一可选项为 true 。<br>title： 该页面的标题。<br>quote： 写在页面开头的一段话，支持 html 语法。<br>timeout： 爬取数据的超时时间，默认是 10000ms，如果在使用时发现报了超时的错 (ETIMEOUT) 可以把这个数据设置的大一点。<br>如果只想显示某一个页面 (比如 movie)，那就把其他的配置项注释掉即可。</p>
 <p>然后再主题配置文件_config.yml 中添加关于此页面的菜单：(下面是我的配置)</p>
 <pre class="line-numbers language-none"><code class="language-none">媒体: 
-  url: /movies
+  url: &#x2F;movies
   icon: fas fa-heartbeat
   children: 
     - name: 电影
-      url: /movies
+      url: &#x2F;movies
       icon: fas fa-film
     - name: 书单
-      url: /books
+      url: &#x2F;books
       icon: fas fa-book
     - name: 游戏
-      url: /games
+      url: &#x2F;games
       icon: fas fa-gamepad<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <h2 id="3适配matery主题"><a href="#3适配matery主题" class="headerlink" title="3适配matery主题"></a>3适配matery主题</h2><p>在 /themes/hexo-theme-matery/layout 文件夹下面创建一个名为 douban.ejs 的文件，并将下面的内容复制进去：</p>
-<pre class="line-numbers language-none"><code class="language-none">&lt;%- partial('_partial/post-cover') %&gt; 
+<pre class="line-numbers language-none"><code class="language-none">&lt;%- partial(&#39;_partial&#x2F;post-cover&#39;) %&gt; 
 &lt;style&gt; 
-    .hexo-douban-picture img {
+    .hexo-douban-picture img &#123;
         width: 100%; 
-    } 
-&lt;/style&gt;
-&lt;main class="content"&gt; 
-    &lt;div id="contact" class="container chip-container"&gt; 
-        &lt;div class="card"&gt; 
-            &lt;div class="card-content" style="padding: 30px"&gt; 
-                &lt;h1 style="margin: 10px 0 10px 0px;"&gt;&lt;%= page.title %&gt;&lt;/h1&gt; 
+    &#125; 
+&lt;&#x2F;style&gt;
+&lt;main class&#x3D;&quot;content&quot;&gt; 
+    &lt;div id&#x3D;&quot;contact&quot; class&#x3D;&quot;container chip-container&quot;&gt; 
+        &lt;div class&#x3D;&quot;card&quot;&gt; 
+            &lt;div class&#x3D;&quot;card-content&quot; style&#x3D;&quot;padding: 30px&quot;&gt; 
+                &lt;h1 style&#x3D;&quot;margin: 10px 0 10px 0px;&quot;&gt;&lt;%&#x3D; page.title %&gt;&lt;&#x2F;h1&gt; 
                 &lt;%- page.content %&gt; 
-            &lt;/div&gt; 
-        &lt;/div&gt; 
-        &lt;div class="card"&gt; 
-            &lt;div class="card-content" style="text-align: center"&gt; 
-                &lt;h3 style="margin: 5px 0 5px 5px;"&gt;如果你有好的内容推荐，欢迎在下面留言！&lt;/h3&gt; 
-            &lt;/div&gt; 
-        &lt;/div&gt; 
-        &lt;div class="card"&gt; 
-            &lt;% if (theme.gitalk &amp;&amp; theme.gitalk.enable) { %&gt;
-            	&lt;%- partial('_partial/gitalk') %&gt;
-            &lt;% } %&gt; 
-            &lt;% if (theme.gitment.enable) { %&gt; 
-            	&lt;%- partial('_partial/gitment') %&gt; 
-            &lt;% } %&gt; 
-            &lt;% if (theme.disqus.enable) { %&gt; 
-            	&lt;%- partial('_partial/disqus') %&gt; 
-            &lt;% } %&gt; 
-            &lt;% if (theme.livere &amp;&amp; theme.livere.enable) { %&gt; 
-            	&lt;%- partial('_partial/livere') %&gt; 
-            &lt;% } %&gt; 
-            &lt;% if (theme.valine &amp;&amp; theme.valine.enable) { %&gt; 
-            	&lt;%- partial('_partial/valine') %&gt; 
-            &lt;% } %&gt; 
-        &lt;/div&gt; 
-    &lt;/div&gt; 
-&lt;/main&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+            &lt;&#x2F;div&gt; 
+        &lt;&#x2F;div&gt; 
+        &lt;div class&#x3D;&quot;card&quot;&gt; 
+            &lt;div class&#x3D;&quot;card-content&quot; style&#x3D;&quot;text-align: center&quot;&gt; 
+                &lt;h3 style&#x3D;&quot;margin: 5px 0 5px 5px;&quot;&gt;如果你有好的内容推荐，欢迎在下面留言！&lt;&#x2F;h3&gt; 
+            &lt;&#x2F;div&gt; 
+        &lt;&#x2F;div&gt; 
+        &lt;div class&#x3D;&quot;card&quot;&gt; 
+            &lt;% if (theme.gitalk &amp;&amp; theme.gitalk.enable) &#123; %&gt;
+            	&lt;%- partial(&#39;_partial&#x2F;gitalk&#39;) %&gt;
+            &lt;% &#125; %&gt; 
+            &lt;% if (theme.gitment.enable) &#123; %&gt; 
+            	&lt;%- partial(&#39;_partial&#x2F;gitment&#39;) %&gt; 
+            &lt;% &#125; %&gt; 
+            &lt;% if (theme.disqus.enable) &#123; %&gt; 
+            	&lt;%- partial(&#39;_partial&#x2F;disqus&#39;) %&gt; 
+            &lt;% &#125; %&gt; 
+            &lt;% if (theme.livere &amp;&amp; theme.livere.enable) &#123; %&gt; 
+            	&lt;%- partial(&#39;_partial&#x2F;livere&#39;) %&gt; 
+            &lt;% &#125; %&gt; 
+            &lt;% if (theme.valine &amp;&amp; theme.valine.enable) &#123; %&gt; 
+            	&lt;%- partial(&#39;_partial&#x2F;valine&#39;) %&gt; 
+            &lt;% &#125; %&gt; 
+        &lt;&#x2F;div&gt; 
+    &lt;&#x2F;div&gt; 
+&lt;&#x2F;main&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 
 
@@ -286,6 +301,17 @@
               2022-03-15 10:25:00
             </span>
             
+                  <span class="post-categories">
+                    <i class="iconfont icon-bookmark" title="分类"></i>
+                    
+                    <span class="span--category">
+                      <a href="/categories/%E6%8F%92%E4%BB%B6%E7%AF%87/" title="插件篇">
+                        <b>#</b> 插件篇
+                      </a>
+                    </span>
+                    
+                  </span>
+              
                   <span class="post-tags">
                     <i class="iconfont icon-tags mr-10" title="标签"></i>
                     
@@ -337,22 +363,6 @@
     
       <div class="comments-container">
         
-  
-    <script async type="text/javascript" src='https://cdn.jsdelivr.net/npm/@waline/client@2.5.1/dist/legacy.min.js' onload="loadWalineSuc(this)"></script>
-  
-
-  <div id="waline-comments"></div>
-
-  <script>
-    function loadWalineSuc() {
-      new Waline({
-        el: '#waline-comments',
-        path: location.pathname,
-        serverURL: 'https://ve.haoqiyun.tk'
-      })
-    }
-  </script>
-
 
 
 
