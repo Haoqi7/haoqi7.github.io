@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://haoqi7.github.io/cs/index.html</loc>
+    
+    <lastmod>2022-11-24</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://haoqi7.github.io/friends/index.html</loc>
     
     <lastmod>2022-11-23</lastmod>
@@ -17,13 +24,6 @@
   
   <url>
     <loc>https://haoqi7.github.io/posts/b92e57a2.html</loc>
-    
-    <lastmod>2022-11-22</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://haoqi7.github.io/posts/55f6848b.html</loc>
     
     <lastmod>2022-11-22</lastmod>
     
@@ -115,13 +115,6 @@
   
   <url>
     <loc>https://haoqi7.github.io/posts/6c27b784.html</loc>
-    
-    <lastmod>2022-04-21</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://haoqi7.github.io/posts/86fb1398.html</loc>
     
     <lastmod>2022-04-21</lastmod>
     
@@ -333,20 +326,6 @@
   </url>
   
   <url>
-    <loc>https://haoqi7.github.io/tags/%E5%B9%B3%E5%AE%9A/</loc>
-    <lastmod>2022-11-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://haoqi7.github.io/tags/%E7%B4%AB%E7%A0%82%E5%A3%B6/</loc>
-    <lastmod>2022-11-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://haoqi7.github.io/tags/leancloud/</loc>
     <lastmod>2022-11-24</lastmod>
     <changefreq>daily</changefreq>
@@ -362,20 +341,6 @@
   
   <url>
     <loc>https://haoqi7.github.io/tags/Github-Acions/</loc>
-    <lastmod>2022-11-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://haoqi7.github.io/tags/%E9%99%B6%E7%93%B7/</loc>
-    <lastmod>2022-11-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://haoqi7.github.io/tags/%E7%B4%AB%E7%A0%82/</loc>
     <lastmod>2022-11-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -434,13 +399,6 @@
   
   <url>
     <loc>https://haoqi7.github.io/categories/%E5%88%86%E4%BA%AB%E7%AF%87/</loc>
-    <lastmod>2022-11-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://haoqi7.github.io/categories/%E7%B4%AB%E7%A0%82%E5%A3%B6%E7%AF%87/</loc>
     <lastmod>2022-11-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
