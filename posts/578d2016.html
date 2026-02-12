@@ -1,0 +1,163 @@
+<!DOCTYPE html><html lang="zh-CN" color-mode="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="keywords" content="python,建模,互联网+,创业,hexo,github,紫砂壶"><meta name="author" content="HaoQi"><meta name="description" content="忙碌的打工人"><title>旧手机变身云手机：安卓 Termux 部署 OpenClaw-CN 保姆级教程 | HaoQi</title><link rel="apple-touch-icon" href="https://bu.dusays.com/2022/11/22/637c4ef60f5ae.png"><link rel="icon" href="https://bu.dusays.com/2022/11/22/637c4f83b5bbb.png"><link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css"><script defer type="text/javascript" src="/plugins/jquery.min.js"></script><link href="/plugins/jquery.fancybox.min.css" rel="stylesheet"><script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script><script src="/js/fancybox.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script>var html=document.documentElement;let colorMode=localStorage.getItem("color-mode");colorMode&&document.documentElement.setAttribute("color-mode",colorMode)</script><meta name="generator" content="Hexo 6.3.0"><style>.github-emoji{position:relative;display:inline-block;width:1.2em;min-height:1.2em;overflow:hidden;vertical-align:top;color:transparent}.github-emoji>span{position:relative;z-index:10}.github-emoji .fancybox,.github-emoji img{margin:0!important;padding:0!important;border:none!important;outline:0!important;text-decoration:none!important;user-select:none!important;cursor:auto!important}.github-emoji img{height:1.2em!important;width:1.2em!important;position:absolute!important;left:50%!important;top:50%!important;transform:translate(-50%,-50%)!important;user-select:none!important;cursor:auto!important}.github-emoji-fallback{color:inherit}.github-emoji-fallback img{opacity:0!important}</style><link rel="alternate" href="/atom.xml" title="HaoQi" type="application/atom+xml"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head><body><div id="app"><div class="header"><div class="avatar"><a href="/"><img no-lazy src="https://bu.dusays.com/2022/11/22/637c4ef60f5ae.png" alt=""></a><div class="nickname"><a href="/">RABBIT</a></div></div><div class="navbar"><ul><li class="nav-item" data-path="/"><a href="/">Home</a></li><li class="nav-item" data-path="/archives/"><a href="/archives/">归档</a></li><li class="nav-item" data-path="/categories/"><a href="/categories/">分类</a></li><li class="nav-item" data-path="/friends/"><a href="/friends/">友链</a></li><li class="nav-item" data-path="/about/"><a href="/about/">关于</a></li></ul></div></div><script src="/js/activeNav.js"></script><div class="flex-container"><script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script><script>MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]]}}</script><script async type="text/javascript" src="/plugins/clipboard.min.js"></script><script src="/js/codeCopy.js"></script><div class="container post-details" id="post-details"><div class="post-content"><div class="post-title">旧手机变身云手机：安卓 Termux 部署 OpenClaw-CN 保姆级教程</div><div class="post-attach"><span class="post-pubtime"><i class="iconfont icon-updatetime mr-10" title="更新时间"></i> 2026-02-10 00:00:00 </span><span class="post-categories"><i class="iconfont icon-bookmark" title="分类"></i> <span class="span--category"><a href="/categories/%E5%88%86%E4%BA%AB%E7%AF%87/" title="分享篇"><b>#</b> 分享篇</a></span></span></div><div class="markdown-body"><h1 id="【保姆级教程】旧手机变身-AI-云手机：Termux-部署-OpenClaw-CN-终极攻略-防卡顿-免审批-Root版"><a href="#【保姆级教程】旧手机变身-AI-云手机：Termux-部署-OpenClaw-CN-终极攻略-防卡顿-免审批-Root版" class="headerlink" title="【保姆级教程】旧手机变身 AI 云手机：Termux 部署 OpenClaw-CN 终极攻略 (防卡顿+免审批+Root版)"></a>【保姆级教程】旧手机变身 AI 云手机：Termux 部署 OpenClaw-CN 终极攻略 (防卡顿+免审批+Root版)</h1><h2 id="📱-前言"><a href="#📱-前言" class="headerlink" title="📱 前言"></a>📱 前言</h2><p>家里吃灰的旧安卓手机，除了换不锈钢脸盆，还能做什么？<br>今天教大家利用 <strong>Termux + Ubuntu</strong> 环境，把旧手机改造成一台 <strong>OpenClaw</strong> 云手机节点。你可以通过 API 或网页远程控制它，执行自动化任务，甚至让它成为你的 AI Agent 手臂。</p><p><strong>为什么要看这篇教程？</strong><br>网上很多教程部署后会遇到以下“深坑”，本教程已全部填平：</p><ol><li><strong>卡顿发热</strong>：旧手机 CPU 跑不动高清流，导致死机。 -&gt; <strong>解决方案</strong>：独家防卡顿脚本 + 降级配置。</li><li><strong>ADB 报错</strong>：提示 <code>Binder driver could not be opened</code>，无法控制系统。 -&gt; <strong>解决方案</strong>：Selinux 宽容模式 + 正确的 ADB 重启姿势。</li><li><strong>无法执行命令</strong>：提示 <code>spawn /system/bin/sh ENOENT</code>。 -&gt; <strong>解决方案</strong>：构建虚拟 Shell 路径映射。</li><li><strong>审批流死循环</strong>：执行命令总要点确认。 -&gt; <strong>解决方案</strong>：免审批配置文件。</li></ol><hr><h2 id="🛠️-准备工作"><a href="#🛠️-准备工作" class="headerlink" title="🛠️ 准备工作"></a>🛠️ 准备工作</h2><ol><li><strong>硬件</strong>：安卓手机一台（建议 Android 10+）。</li><li><strong>Root 权限</strong>：<strong>必须有 Magisk Root</strong>（这是控制手机的前提）。</li><li><strong>软件</strong>：Termux (F-Droid版)、MT管理器。</li><li><strong>环境</strong>：假设你已经安装好了 Ubuntu 22.04 的容器（位于 <code>/data/local/ubuntu22</code>）。</li></ol><hr><h2 id="第一步：构建“完美”引导脚本-start-sh"><a href="#第一步：构建“完美”引导脚本-start-sh" class="headerlink" title="第一步：构建“完美”引导脚本 (start.sh)"></a>第一步：构建“完美”引导脚本 (<code>start.sh</code>)</h2><p><strong>痛点解决</strong>：普通启动方式会导致 ADB 丢失系统权限（变成黑户）。此脚本使用 <code>ctl.restart</code> 配合 <code>setenforce 0</code>，确保 OpenClaw 拥有完整的系统控制权。</p><p>👉 <strong>操作位置</strong>：手机 Termux 原生界面</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">su -c &quot;cat &lt;&lt; &#39;EOF&#39; &gt; &#x2F;data&#x2F;local&#x2F;ubuntu22&#x2F;start.sh
+#!&#x2F;bin&#x2F;sh
+MNT_PATH&#x3D;\&quot;&#x2F;data&#x2F;local&#x2F;ubuntu22\&quot;
+export PATH&#x3D;&#x2F;usr&#x2F;local&#x2F;sbin:&#x2F;usr&#x2F;local&#x2F;bin:&#x2F;usr&#x2F;sbin:&#x2F;usr&#x2F;bin:&#x2F;sbin:&#x2F;bin:\$PATH
+
+# --- 核心修复：赋予 ADB 完整系统权限 ---
+if echo \&quot;\$1\&quot; | grep -q \&quot;run_services\&quot;; then
+    echo \&quot;[Boot] 正在修复 ADB 上下文...\&quot;
+    
+    # 1. 宽容模式：允许 ADB 调用 Binder 驱动
+    setenforce 0 2&gt;&#x2F;dev&#x2F;null
+    
+    # 2. 开启网络调试端口
+    setprop service.adb.tcp.port 5555
+    
+    # 3. 正规重启 ADB：继承 init 进程的 Root 权限
+    setprop ctl.restart adbd
+    
+    sleep 3
+fi
+
+# --- 挂载系统目录 ---
+mount -o bind &#x2F;dev \&quot;\$MNT_PATH&#x2F;dev\&quot; 2&gt;&#x2F;dev&#x2F;null
+mount -t devpts devpts \&quot;\$MNT_PATH&#x2F;dev&#x2F;pts\&quot; 2&gt;&#x2F;dev&#x2F;null
+mount -t proc proc \&quot;\$MNT_PATH&#x2F;proc\&quot; 2&gt;&#x2F;dev&#x2F;null
+mount -t sysfs sysfs \&quot;\$MNT_PATH&#x2F;sys\&quot; 2&gt;&#x2F;dev&#x2F;null
+mount -o bind &#x2F;sdcard \&quot;\$MNT_PATH&#x2F;mnt\&quot; 2&gt;&#x2F;dev&#x2F;null
+
+# --- 进入系统 ---
+if [ -n \&quot;\$1\&quot; ]; then
+    chroot \&quot;\$MNT_PATH\&quot; &#x2F;bin&#x2F;bash -c \&quot;\$1\&quot;
+else
+    export HOME&#x3D;&#x2F;root
+    export TERM&#x3D;xterm-256color
+    chroot \&quot;\$MNT_PATH\&quot; &#x2F;bin&#x2F;bash
+fi
+EOF&quot;
+
+# 赋予执行权限
+su -c &quot;chmod 777 &#x2F;data&#x2F;local&#x2F;ubuntu22&#x2F;start.sh&quot;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><hr><h2 id="第二步：构建服务管理脚本-run-services-sh"><a href="#第二步：构建服务管理脚本-run-services-sh" class="headerlink" title="第二步：构建服务管理脚本 (run_services.sh)"></a>第二步：构建服务管理脚本 (<code>run_services.sh</code>)</h2><p><strong>痛点解决</strong>：</p><ol><li>OpenClaw 找不到安卓的 <code>/system/bin/sh</code>。</li><li>日志文件无限膨胀导致卡死。</li><li>进程优先级太高抢占系统资源。</li></ol><p>👉 <strong>操作位置</strong>：手机 Termux 原生界面</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">su -c &quot;cat &lt;&lt; &#39;EOF&#39; &gt; &#x2F;data&#x2F;local&#x2F;ubuntu22&#x2F;root&#x2F;run_services.sh
+#!&#x2F;bin&#x2F;bash
+export PATH&#x3D;&#x2F;usr&#x2F;local&#x2F;sbin:&#x2F;usr&#x2F;local&#x2F;bin:&#x2F;usr&#x2F;sbin:&#x2F;usr&#x2F;bin:&#x2F;sbin:&#x2F;bin:\$PATH
+export HOME&#x3D;&#x2F;root
+
+# 获取本机 IP
+CURRENT_IP&#x3D;\$(ifconfig | grep -Eo &#39;inet (addr:)?([0-9]*\.)&#123;3&#125;[0-9]*&#39; | grep -v &#39;127.0.0.1&#39; | awk &#39;&#123;print \$2&#125;&#39; | sed &#39;s&#x2F;addr:&#x2F;&#x2F;g&#39; | head -n 1)
+
+echo \&quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;\&quot;
+echo \&quot;🚀 正在启动服务 (防卡顿 + 环境修复)...\&quot;
+echo \&quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;\&quot;
+
+# --- 1. 环境欺骗 (修复 spawn ENOENT 报错) ---
+# OpenClaw 以为在安卓里，硬要找 &#x2F;system&#x2F;bin&#x2F;sh
+# 我们创建一个软链接，骗它去用 Ubuntu 的 Bash
+mkdir -p &#x2F;system&#x2F;bin
+ln -sf &#x2F;bin&#x2F;bash &#x2F;system&#x2F;bin&#x2F;sh
+ln -sf &#x2F;bin&#x2F;bash &#x2F;bin&#x2F;sh
+
+# --- 2. 启动 SSH ---
+pkill -x sshd
+mkdir -p &#x2F;run&#x2F;sshd
+&#x2F;usr&#x2F;sbin&#x2F;sshd
+
+# --- 3. 连接 ADB ---
+adb disconnect &gt; &#x2F;dev&#x2F;null 2&gt;&amp;1
+sleep 1
+adb connect 127.0.0.1:5555 &gt; &#x2F;dev&#x2F;null 2&gt;&amp;1
+sleep 2
+
+# --- 4. 启动 OpenClaw (性能优化) ---
+pkill -f openclaw-cn &gt; &#x2F;dev&#x2F;null 2&gt;&amp;1
+pkill -f node &gt; &#x2F;dev&#x2F;null 2&gt;&amp;1
+
+# 优化策略：
+# nice -n 15: 降低优先级，把 CPU 让给系统，防止死机
+# &gt; &#x2F;dev&#x2F;null: 丢弃日志，减少闪存读写
+nohup nice -n 15 openclaw-cn gateway --port 18789 &gt; &#x2F;dev&#x2F;null 2&gt;&amp;1 &amp;
+
+echo \&quot;✅ 启动完成，生成面板...\&quot;
+sleep 2
+
+# --- 状态检查 ---
+echo \&quot;\&quot;
+echo \&quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; 📱 运行状态 &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&quot;
+if adb devices | grep -w \&quot;device\&quot; &gt; &#x2F;dev&#x2F;null; then
+    echo \&quot;🔹 [ADB]      ✅ 正常 (已授权 Root)\&quot;
+else
+    echo \&quot;🔹 [ADB]      ❌ 异常 (Binder 驱动丢失?)\&quot;
+fi
+
+if pgrep -f \&quot;openclaw-cn\&quot; &gt; &#x2F;dev&#x2F;null; then
+    echo \&quot;🔹 [OpenClaw] ✅ 运行中\&quot;
+    echo \&quot;   👉 远程连接: ssh -p 2222 root@\$CURRENT_IP\&quot;
+else
+    echo \&quot;🔹 [OpenClaw] ❌ 启动失败\&quot;
+fi
+echo \&quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;\&quot;
+EOF&quot;
+
+su -c &quot;chmod 777 &#x2F;data&#x2F;local&#x2F;ubuntu22&#x2F;root&#x2F;run_services.sh&quot;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><hr><h2 id="第三步：注入“免审批”配置-config-yaml"><a href="#第三步：注入“免审批”配置-config-yaml" class="headerlink" title="第三步：注入“免审批”配置 (config.yaml)"></a>第三步：注入“免审批”配置 (<code>config.yaml</code>)</h2><p><strong>痛点解决</strong>：默认情况下 OpenClaw 执行任何命令都需要在飞书/网页端审批，非常麻烦。此配置将关闭所有询问，开启“上帝模式”。</p><p>👉 <strong>操作位置</strong>：手机 Termux 原生界面</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">su -c &quot;mkdir -p &#x2F;data&#x2F;local&#x2F;ubuntu22&#x2F;root&#x2F;.openclaw&quot;
+su -c &quot;cat &lt;&lt; &#39;EOF&#39; &gt; &#x2F;data&#x2F;local&#x2F;ubuntu22&#x2F;root&#x2F;.openclaw&#x2F;config.yaml
+# --- 基础修复 ---
+# 显式指定 Shell，防止找不到路径
+shell: \&quot;&#x2F;bin&#x2F;bash\&quot;
+
+# --- 权限控制 (上帝模式) ---
+auto_run: true
+safe_mode: \&quot;off\&quot;
+offline: true
+
+# 关闭所有工具的审批
+approvals:
+  exec:
+    enabled: false
+  fs:
+    enabled: false
+
+# 允许执行任意命令
+tools:
+  exec:
+    ask: false
+    security: \&quot;full\&quot;
+
+# --- 性能优化 (关键!) ---
+# 旧手机必须降级画质，否则必卡
+stream:
+  video:
+    width: 960      # 分辨率降为 540P
+    height: 540
+    fps: 15         # 锁帧 15
+    bitrate: 800k
+  audio:
+    enabled: false  # 关闭音频推流 (防卡死)
+EOF&quot;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><hr><h2 id="第四步：封装一键管理指令"><a href="#第四步：封装一键管理指令" class="headerlink" title="第四步：封装一键管理指令"></a>第四步：封装一键管理指令</h2><p>👉 <strong>操作位置</strong>：手机 Termux 原生界面</p><ol><li><strong>一键启动 (<code>./up</code>)</strong><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">echo &#39;su -c &quot;&#x2F;data&#x2F;local&#x2F;ubuntu22&#x2F;start.sh \&quot;&#x2F;root&#x2F;run_services.sh\&quot;&quot;&#39; &gt; ~&#x2F;up
+chmod +x ~&#x2F;up
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li></ol><ol start="2"><li><strong>一键停止 (<code>./down</code>)</strong> —— <em>包含深度清理，防止关掉程序后手机还烫手</em><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">cat &lt;&lt; &#39;EOF&#39; &gt; ~&#x2F;down
+#!&#x2F;bin&#x2F;bash
+echo &quot;🛑 正在执行深度清理...&quot;
+# 杀进程
+su -c &quot;pkill -f openclaw-cn; pkill -f node; pkill -x sshd&quot;
+# 断开 ADB
+su -c &quot;adb disconnect&quot; &gt; &#x2F;dev&#x2F;null 2&gt;&amp;1
+# 强制卸载挂载点 (防止系统 I&#x2F;O 锁死)
+MNT&#x3D;&quot;&#x2F;data&#x2F;local&#x2F;ubuntu22&quot;
+su -c &quot;umount -l $MNT&#x2F;dev&#x2F;pts 2&gt;&#x2F;dev&#x2F;null&quot;
+su -c &quot;umount -l $MNT&#x2F;dev 2&gt;&#x2F;dev&#x2F;null&quot;
+su -c &quot;umount -l $MNT&#x2F;proc 2&gt;&#x2F;dev&#x2F;null&quot;
+su -c &quot;umount -l $MNT&#x2F;sys 2&gt;&#x2F;dev&#x2F;null&quot;
+su -c &quot;umount -l $MNT&#x2F;mnt 2&gt;&#x2F;dev&#x2F;null&quot;
+echo &quot;✅ 服务已彻底停止。&quot;
+EOF
+chmod +x ~&#x2F;down
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li></ol><ol start="3"><li><strong>满血模式 (<code>./boost</code>)</strong> —— <em>如果要长期运行，建议配合散热背夹</em><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">cat &lt;&lt; &#39;EOF&#39; &gt; ~&#x2F;boost
+#!&#x2F;bin&#x2F;bash
+echo &quot;🔥 开启 CPU 满血模式 (去除温控)...&quot;
+su -c &quot;stop thermal-engine; stop thermald&quot;
+echo &quot;⚠️ 警告：请务必使用散热背夹，否则手机可能过热关机！&quot;
+EOF
+chmod +x ~&#x2F;boost
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li></ol><hr><h2 id="🏁-如何使用？"><a href="#🏁-如何使用？" class="headerlink" title="🏁 如何使用？"></a>🏁 如何使用？</h2><p>现在你的手机已经准备好了。</p><ol><li><strong>日常启动</strong>：<br>打开 Termux，输入 <code>./up</code>。</li></ol><p><em>脚本会自动修复 ADB 权限，启动所有服务，并告诉你 SSH 连接地址。</em><br>2. <strong>验证成功</strong>：<br>在电脑 OpenClaw 终端输入 <code>adb shell am start -a android.settings.SETTINGS</code>。<br><em>如果手机自动弹出了设置页面，说明一切完美！</em><br>3. <strong>停止服务</strong>：<br>输入 <code>./down</code>。</p><h2 id="⚠️-常见问题排查"><a href="#⚠️-常见问题排查" class="headerlink" title="⚠️ 常见问题排查"></a>⚠️ 常见问题排查</h2><ul><li><strong>Q: 还是提示 <code>Binder driver could not be opened</code>?</strong></li><li>A: 确保你使用的是最新的 <code>./up</code> 脚本。如果还不行，重启手机，先运行 <code>./up</code>，不要自己手动去连 ADB。</li></ul><ul><li><strong>Q: 执行命令提示 <code>spawn ENOENT</code>?</strong></li><li>A: 我们的脚本里已经加了 <code>ln -sf /bin/bash /system/bin/sh</code>，重启服务 (<code>./down</code> -&gt; <code>./up</code>) 即可生效。</li></ul><ul><li><strong>Q: 手机非常烫且卡顿？</strong></li><li>A: 检查 <code>config.yaml</code> 里是否关闭了 Audio 并降低了分辨率。如果还卡，请购买一个手机散热背夹（几十块钱），这是物理定律，软件很难突破。</li></ul><hr><p><em>希望能帮到所有折腾旧手机的朋友！</em></p></div><div class="prev-or-next"><div class="post-foot-next"><a href="/posts/a222e961.html" target="_self"><i class="iconfont icon-chevronleft"></i> <span>上一页</span></a></div><div class="post-attach"><span class="post-pubtime"><i class="iconfont icon-updatetime mr-10" title="更新时间"></i> 2026-02-10 00:00:00 </span><span class="post-categories"><i class="iconfont icon-bookmark" title="分类"></i> <span class="span--category"><a href="/categories/%E5%88%86%E4%BA%AB%E7%AF%87/" title="分享篇"><b>#</b> 分享篇</a></span></span></div><div class="post-foot-prev"><a href="/posts/0.html" target="_self"><span>下一页</span> <i class="iconfont icon-chevronright"></i></a></div></div></div><div id="btn-catalog" class="btn-catalog"><i class="iconfont icon-catalog"></i></div><div class="post-catalog hidden" id="catalog"><div class="title">目录</div><div class="catalog-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E3%80%90%E4%BF%9D%E5%A7%86%E7%BA%A7%E6%95%99%E7%A8%8B%E3%80%91%E6%97%A7%E6%89%8B%E6%9C%BA%E5%8F%98%E8%BA%AB-AI-%E4%BA%91%E6%89%8B%E6%9C%BA%EF%BC%9ATermux-%E9%83%A8%E7%BD%B2-OpenClaw-CN-%E7%BB%88%E6%9E%81%E6%94%BB%E7%95%A5-%E9%98%B2%E5%8D%A1%E9%A1%BF-%E5%85%8D%E5%AE%A1%E6%89%B9-Root%E7%89%88"><span class="toc-text">【保姆级教程】旧手机变身 AI 云手机：Termux 部署 OpenClaw-CN 终极攻略 (防卡顿+免审批+Root版)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%B1-%E5%89%8D%E8%A8%80"><span class="toc-text">📱 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%9B%A0%EF%B8%8F-%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-text">🛠️ 准备工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E6%9E%84%E5%BB%BA%E2%80%9C%E5%AE%8C%E7%BE%8E%E2%80%9D%E5%BC%95%E5%AF%BC%E8%84%9A%E6%9C%AC-start-sh"><span class="toc-text">第一步：构建“完美”引导脚本 (start.sh)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E6%9E%84%E5%BB%BA%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86%E8%84%9A%E6%9C%AC-run-services-sh"><span class="toc-text">第二步：构建服务管理脚本 (run_services.sh)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%EF%BC%9A%E6%B3%A8%E5%85%A5%E2%80%9C%E5%85%8D%E5%AE%A1%E6%89%B9%E2%80%9D%E9%85%8D%E7%BD%AE-config-yaml"><span class="toc-text">第三步：注入“免审批”配置 (config.yaml)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E6%AD%A5%EF%BC%9A%E5%B0%81%E8%A3%85%E4%B8%80%E9%94%AE%E7%AE%A1%E7%90%86%E6%8C%87%E4%BB%A4"><span class="toc-text">第四步：封装一键管理指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8F%81-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%EF%BC%9F"><span class="toc-text">🏁 如何使用？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%9A%A0%EF%B8%8F-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5"><span class="toc-text">⚠️ 常见问题排查</span></a></li></ol></li></ol></div></div><script src="/js/catalog.js"></script><div class="comments-container"><script async type="text/javascript" src="https://cdn.jsdelivr.net/npm/@waline/client@2.5.1/dist/legacy.min.js" onload="loadWalineSuc(this)"></script><div id="waline-comments"></div><script>function loadWalineSuc(){new Waline({el:"#waline-comments",path:location.pathname,serverURL:"https://ve.haoqiyun.tk"})}</script></div></div><div class="footer"><div class="social"><ul><li><a title="github" target="_blank" rel="noopener" href="https://github.com/haoqi7"><i class="iconfont icon-github"></i></a></li></ul></div><div class="footer-more"><a target="_blank" rel="noopener" href="https://github.com/Haoqi7">Copyright © 2026 Rabbit</a></div><div class="footer-views">本站总访问量<span id="busuanzi_value_site_pv"></span>次 本文总阅读量<span id="busuanzi_value_page_pv"></span>次 本站访客数<span id="busuanzi_value_site_uv"></span>人</div></div></div><div class="tools-bar"><div class="back-to-top tools-bar-item hidden"><a href="javascript: void(0)"><i class="iconfont icon-chevronup"></i></a></div><script src="/js/backtotop.js"></script><div class="search-icon tools-bar-item" id="search-icon"><a href="javascript: void(0)"><i class="iconfont icon-search"></i></a></div><div class="search-overlay hidden"><div class="search-content" tabindex="0"><div class="search-title"><span class="search-icon-input"><a href="javascript: void(0)"><i class="iconfont icon-search"></i> </a></span><input type="text" class="search-input" id="search-input" placeholder="搜索..."> <span class="search-close-icon" id="search-close-icon"><a href="javascript: void(0)"><i class="iconfont icon-close"></i></a></span></div><div class="search-result" id="search-result"></div></div></div><script type="text/javascript">var inputArea=document.querySelector("#search-input"),searchOverlayArea=document.querySelector(".search-overlay");function openOrHideSearchContent(){searchOverlayArea.classList.contains("hidden")?(searchOverlayArea.classList.remove("hidden"),document.body.classList.add("hidden")):(searchOverlayArea.classList.add("hidden"),document.body.classList.remove("hidden"))}function blurSearchContent(e){e.target===searchOverlayArea&&openOrHideSearchContent()}inputArea.onclick=function(){getSearchFile(),this.onclick=null},inputArea.onkeydown=function(){if(13==event.keyCode)return!1},document.querySelector("#search-icon").addEventListener("click",openOrHideSearchContent,!1),document.querySelector("#search-close-icon").addEventListener("click",openOrHideSearchContent,!1),searchOverlayArea.addEventListener("click",blurSearchContent,!1);var searchFunc=function(e,t,n){var r=document.getElementById(t),a=document.getElementById(n);a.innerHTML="<ul><span class='local-search-empty'>首次搜索，正在载入索引文件，请稍后……<span></ul>",$.ajax({url:e,dataType:"xml",success:function(e){var t=$("entry",e).map(function(){return{title:$("title",this).text(),content:$("content",this).text(),url:$("url",this).text()}}).get();a.innerHTML="",r.addEventListener("input",function(){var u='<ul class="search-result-list">',h=this.value.trim().toLowerCase().split(/[\s\-]+/);if(a.innerHTML="",!(this.value.trim().length<=0)){if(t.forEach(function(e){var n,r,a=!0,t=(e.title&&""!==e.title.trim()||(e.title="Untitled"),e.title.trim()),c=t.toLowerCase(),s=e.content.trim().replace(/<[^>]+>/g,""),i=s.toLowerCase(),e=e.url,l=-1,o=-1;""!==i?h.forEach(function(e,t){n=c.indexOf(e),l=i.indexOf(e),n<0&&l<0?a=!1:(l<0&&(l=0),0==t&&(o=l))}):a=!1,a&&(u+="<li><a href='"+e+"' class='search-result-title'>"+t+"</a>",0<=o&&(e=o+80,(e=0==(t=(t=o-20)<0?0:t)?100:e)>s.length&&(e=s.length),r=s.substr(t,e),h.forEach(function(e){var t=new RegExp(e,"gi");r=r.replace(t,'<span class="search-keyword">'+e+"</span>")}),u+='<p class="search-result-abstract">'+r+"...</p>"),u+="</li>")}),-1===(u+="</ul>").indexOf("<li>"))return a.innerHTML="<ul><span class='local-search-empty'>没有找到内容，请尝试更换检索词。<span></ul>";a.innerHTML=u}})},error:function(e,t,n){a.innerHTML="",404===e.status?a.innerHTML="<ul><span class='local-search-empty'>未找到search.xml文件，具体请参考：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>":a.innerHTML="<ul><span class='local-search-empty'>请求失败，尝试重新刷新页面或稍后重试。<span></ul>"}}),$(document).on("click","#search-close-icon",function(){$("#search-input").val(""),$("#search-result").html("")})},getSearchFile=function(){searchFunc("/search.xml","search-input","search-result")}</script><div class="tools-bar-item theme-icon" id="switch-color-scheme"><a href="javascript: void(0)"><i id="theme-icon" class="iconfont icon-moon"></i></a></div><script src="/js/colorscheme.js"></script><div class="share-icon tools-bar-item"><a href="javascript: void(0)" id="share-icon"><i class="iconfont iconshare"></i></a><div class="share-content hidden"><a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E6%97%A7%E6%89%8B%E6%9C%BA%E5%8F%98%E8%BA%AB%E4%BA%91%E6%89%8B%E6%9C%BA%EF%BC%9A%E5%AE%89%E5%8D%93%20Termux%20%E9%83%A8%E7%BD%B2%20OpenClaw-CN%20%E4%BF%9D%E5%A7%86%E7%BA%A7%E6%95%99%E7%A8%8B + '&url=' + https%3A%2F%2Fhaoqi7.github.io%2Fposts%2F578d2016.html + '" target="_blank" title="Twitter"><i class="iconfont icon-twitter"></i> </a><a class="share-item" href="https://www.facebook.com/sharer.php?u=https://haoqi7.github.io/posts/578d2016.html" target="_blank" title="Facebook"><i class="iconfont icon-facebooksquare"></i></a></div></div><script src="/js/shares.js"></script></div></div><style>[bg-lazy]{background-image:none!important;background-color:#eee!important}</style><script>window.imageLazyLoadSetting={isSPA:!1,preloadRatio:1,processImages:null}</script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z\d\-\.\+]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(t.test(e.href)||r.test(e.href))&&(e.href=a.dataset.original)})})</script><script>(r=>{r.imageLazyLoadSetting.processImages=t;var a=r.imageLazyLoadSetting.isSPA,o=r.imageLazyLoadSetting.preloadRatio||1,d=i();function i(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(t){(a||t)&&(d=i());for(var e,n=0;n<d.length;n++)0<=(e=(e=d[n]).getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(r.innerHeight*o||document.documentElement.clientHeight*o)&&(()=>{var t,e,a,o=d[n],i=function(){d=d.filter(function(t){return o!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(o)};(t=o).dataset.loaded||(t.hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),i()):(e=new Image,a=t.getAttribute("data-original"),e.onload=function(){t.src=a,t.removeAttribute("data-original"),t.setAttribute("data-loaded",!0),i()},e.onerror=function(){t.removeAttribute("data-original"),t.setAttribute("data-loaded",!1),t.src=a},t.src!==a&&(e.src=a)))})()}function e(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",e),r.addEventListener("resize",e),r.addEventListener("orientationchange",e)})(this)</script></body></html>
